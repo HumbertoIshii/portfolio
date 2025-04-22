@@ -17,7 +17,7 @@ Este é um site desenvolvido com Node.js e Express, utilizando o mecanismo de vi
 
 ## Vídeo do Site
 
-
+https://github.com/user-attachments/assets/7db29642-ca27-43b7-a373-2aada901b68e
 
 ## Como rodar o projeto
 
