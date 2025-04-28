@@ -10,7 +10,8 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 // Rota página inicial
 app.get('/', (req, res) => {
-  res.render('index')
+  const nome = 'Humberto'
+  res.render('index', {nome:nome})
 })
 
 // Rota página de projetos
