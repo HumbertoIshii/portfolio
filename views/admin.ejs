@@ -1,0 +1,31 @@
+<%- include('partials/header') %>
+<%- include('partials/navbar') %>
+
+<h2>Administração de Projetos</h2>
+
+<a href="/logout">Sair</a>
+
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Título</th>
+      <th>Descrição</th>
+      <th>Imagem</th>
+      <th>Link</th>
+      <th>Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% projetos.forEach(projeto => { %>
+      <tr>
+        <td><%= projeto.id %></td>
+        <td><%= projeto.titulo %></td>
+        <td><%= projeto.descricao %></td>
+        <td><%= projeto.imagem_url %></td>
+        <td><a href="<%= projeto.link %>" target="_blank"><%= projeto.link %></a></td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>
+<%- include('partials/footer') %>

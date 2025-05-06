@@ -1,0 +1,12 @@
+<%- include('partials/header') %>
+<%- include('partials/navbar') %>
+
+<h2>Área Administrativa</h2>
+
+<form action="/login" method="POST">
+  <label for="senha">Senha de administrador:</label>
+  <input type="password" name="senha" id="senha" required>
+  <button type="submit">Entrar</button>
+</form>
+
+<%- include('partials/footer') %>

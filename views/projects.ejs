@@ -1,4 +1,5 @@
 <%- include('partials/header') %>
+<%- include('partials/navbar') %>
 
 <div class="row gx-4 gx-lg-5 align-items-center justify-content-center my-5 mx-0 px-0 text-light-gray">
   <div class="col-lg-4 text-center">
@@ -13,39 +14,31 @@
   </div>
 </div>
 
-<div class="row gx-4 gx-lg-5 justify-content-center text-light-gray">
-  <div class="col-md-3 mb-4">
-      <div class="card custom-card h-100">
-          <div class="card-body">
-              <h4 class="card-title">Scrum Teach</h4>
-              <p class="card-text">Projeto desenvolvido com Flask e MySQL para apresentar os principais conceitos da metodologia Scrum. O site conta com páginas estáticas estruturadas em HTML, CSS e Bootstrap, além de um pequeno sistema de cadastro gerenciado via banco de dados.</p>
-              <img src="/images/scrum.png" class="img-fluid mt-3 rounded" alt="...">
+<div class="d-flex justify-content-center">
+<div class="col-md-8 row gx-4 gx-lg-5 justify-content-center text-light-gray">
+    <% if (projetos.length > 0) { %>
+      <% projetos.forEach(projeto => { %>
+        <div class="col-md-4 mb-4">
+          <div class="card custom-card h-100">
+            <div class="card-body">
+              <h4 class="card-title"><%= projeto.titulo %></h4>
+              <p class="card-text"><%= projeto.descricao %></p>
+              <% if (projeto.imagem_url) { %>
+                <img src="<%= projeto.imagem_url %>" class="img-fluid mt-3 rounded" alt="Imagem do Projeto">
+              <% } %>
+            </div>
+            <div class="card-footer">
+              <% if (projeto.link) { %>
+                <a class="btn btn-sm text-light-gray" href="<%= projeto.link %>" target="_blank">Saiba Mais</a>
+              <% } %>
+            </div>
           </div>
-          <div class="card-footer"><a class="btn btn-sm text-light-gray" href="https://github.com/HumbertoIshii/API1Semestre">Saiba Mais</a></div>
-      </div>
-  </div>
-
-  <div class="col-md-3 mb-4">
-      <div class="card custom-card h-100">
-          <div class="card-body">
-              <h4 class="card-title">Alplaca</h4>
-              <p class="card-text">Aplicativo desktop desenvolvido em Java utilizando a biblioteca Swing para interface gráfica. O sistema realiza a análise de imagens de placas de veículos por meio de uma IA local integrada via Ollama, armazenando os dados processados em um banco de dados.</p>
-              <img src="/images/alplaca.png" class="img-fluid mt-3 rounded" alt="...">
-          </div>
-          <div class="card-footer"><a class="btn btn-sm text-light-gray" href="https://github.com/Bug-Busters-F/alplaca">Saiba Mais</a></div>
-      </div>
-  </div>
-
-  <div class="col-md-3 mb-4">
-      <div class="card custom-card h-100">
-          <div class="card-body">
-              <h4 class="card-title">AI Agent</h4>
-              <p class="card-text">Agente inteligente desenvolvido com a biblioteca SmallAgents, capaz de buscar e analisar comentários de vídeos do YouTube. A análise de sentimentos é realizada com modelos baseados em Transformers, enquanto a IA do agente roda localmente via Ollama.</p>
-              <img src="/images/Alfred.png" class="img-fluid mt-3 rounded" alt="...">
-          </div>
-          <div class="card-footer"><a class="btn btn-sm text-light-gray" href="https://github.com/HumbertoIshii/AI-Agent">Saiba Mais</a></div>
-      </div>
-  </div>
+        </div>
+      <% }) %>
+    <% } else { %>
+      <p class="text-center">Nenhum projeto cadastrado ainda.</p>
+    <% } %>
+</div>
 </div>
 
 <%- include('partials/footer') %>
