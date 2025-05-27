@@ -1,31 +1,90 @@
 <%- include('partials/header') %>
 <%- include('partials/navbar') %>
 
-<h2>Administração de Projetos</h2>
+<div class="container my-5">
 
-<a href="/logout">Sair</a>
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h3 class="text-light-gray">Administração de Projetos</h3>
+    <a href="/logout" class="btn btn-danger">Sair</a>
+  </div>
 
-<table>
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Título</th>
-      <th>Descrição</th>
-      <th>Imagem</th>
-      <th>Link</th>
-      <th>Ações</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% projetos.forEach(projeto => { %>
-      <tr>
-        <td><%= projeto.id %></td>
-        <td><%= projeto.titulo %></td>
-        <td><%= projeto.descricao %></td>
-        <td><%= projeto.imagem_url %></td>
-        <td><a href="<%= projeto.link %>" target="_blank"><%= projeto.link %></a></td>
-      </tr>
-    <% }) %>
-  </tbody>
-</table>
-<%- include('partials/footer') %>
+  <div class="custom-card p-4 mb-5">
+    <h4 class="text-light-gray mb-4"><%= projetoParaEditar ? 'Editar Projeto' : 'Adicionar Novo Projeto' %></h4>
+    <form action="/admin/save" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
+      <% if (projetoParaEditar) { %>
+        <input type="hidden" name="id" value="<%= projetoParaEditar.id %>">
+        <input type="hidden" name="imagem_url" value="<%= projetoParaEditar.imagem_url %>">
+      <% } %>
+
+      <div class="mb-3">
+        <input type="text" name="titulo" placeholder="Título" value="<%= projetoParaEditar?.titulo || '' %>" class="form-control" required>
+        <div class="invalid-feedback">Por favor, insira o título do projeto.</div>
+      </div>
+
+      <div class="mb-3">
+        <textarea name="descricao" placeholder="Descrição" rows="4" class="form-control" required><%= projetoParaEditar?.descricao || '' %></textarea>
+        <div class="invalid-feedback">Por favor, insira a descrição.</div>
+      </div>
+
+      <div class="mb-3">
+        <input type="text" name="link" placeholder="Link do Projeto" value="<%= projetoParaEditar?.link || '' %>" class="form-control">
+      </div>
+
+      <div class="mb-3">
+        <input type="file" name="imagem" accept="image/*" class="form-control">
+      </div>
+
+      <button type="submit" class="btn btn-success">
+        <%= projetoParaEditar ? 'Atualizar' : 'Adicionar' %> Projeto
+      </button>
+
+      <% if (projetoParaEditar) { %>
+        <a href="/admin" class="btn btn-danger ms-2">Cancelar Edição</a>
+      <% } %>
+
+    </form>
+  </div>
+
+  <div class="custom-card p-4">
+    <table class="table table-hover table-dark bdr align-middle mb-0">
+      <thead>
+        <tr>
+          <th>Título</th>
+          <th>Descrição</th>
+          <th>Imagem</th>
+          <th>Link</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% projetos.forEach(projeto => { %>
+          <tr>
+            <td><%= projeto.titulo %></td>
+            <td><%= projeto.descricao %></td>
+            <td>
+              <% if (projeto.imagem_url) { %>
+                <img src="<%= projeto.imagem_url %>" style="max-width: 100px;" alt="Imagem do projeto">
+              <% } else { %>
+                <span class="text-light-gray">Sem imagem</span>
+              <% } %>
+            </td>
+            <td>
+              <% if(projeto.link){ %>
+                <a href="<%= projeto.link %>" target="_blank" rel="noopener noreferrer" class="text-info"><%= projeto.link %></a>
+              <% } else { %>
+                <span class="text-light-gray">—</span>
+              <% } %>
+            </td>
+            <td>
+              <a href="/admin/edit/<%= projeto.id %>" class="btn btn-sm btn-warning me-2 action-btn">Editar</a>
+              <a href="/admin/delete/<%= projeto.id %>" class="btn mt-1 btn-sm btn-danger action-btn" onclick="return confirm('Tem certeza que deseja excluir?');">Excluir</a>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<%- include('partials/nofooter') %>
