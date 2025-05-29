@@ -1,5 +1,9 @@
+## 📁 Estrutura do Projeto
+
+```text
 meu-portfolio/
 ├── database/
+│   ├── database.sql
 │   └── create-database.js
 ├── public/
 │   ├── css/
@@ -9,6 +13,7 @@ meu-portfolio/
 │   ├── partials/
 │   │   ├── navbar.ejs
 │   │   ├── header.ejs
+│   │   ├── nofooter.ejs
 │   │   └── footer.ejs
 │   ├── index.ejs
 │   ├── projects.ejs
@@ -19,6 +24,8 @@ meu-portfolio/
 │   ├── auth.js
 │   └── projetos.js
 ├── app.js
+├── .env.template
+├── .gitignore
 ├── package.json
 ├── README.md
 └── structure.md
