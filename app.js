@@ -1,17 +1,18 @@
+require('dotenv').config()
 const express = require('express')
 const session = require('express-session')
 const mysql = require('mysql2')
 const path = require('path')
 
 const app = express()
-const port = 3000
+const port = process.env.PORT || 3000
 
 // Conexão com o banco de dados MySQL
 const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'fatec',
-  database: 'meu_portfolio',
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
 })
 
 db.connect((err) => {
@@ -31,17 +32,16 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(session({
-  secret: 'segredo',
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: true
 }))
 
-// Rota principal
+// Rotas
 app.get('/', (req, res) => {
   res.render('index', { nome: 'Humberto' })
 })
 
-// Rotas externas
 const authRoutes = require('./routes/auth')
 app.use('/', authRoutes(db))
 
