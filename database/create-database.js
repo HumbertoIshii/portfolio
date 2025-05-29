@@ -1,24 +1,28 @@
+require('dotenv').config()
 const mysql = require('mysql2')
 const bcrypt = require('bcrypt')
 const readline = require('readline')
 
+// Interface de leitura para entrada do usuário
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout
 })
 
+// Configuração da conexão usando variáveis de ambiente
 const dbConfig = {
-  host: 'localhost',
-  user: 'root',
-  password: 'fatec',
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
   multipleStatements: true
 }
 
 const connection = mysql.createConnection(dbConfig)
 
+// SQL para criar o banco de dados e tabelas
 const createDatabaseAndTables = `
-  CREATE DATABASE IF NOT EXISTS meu_portfolio;
-  USE meu_portfolio;
+  CREATE DATABASE IF NOT EXISTS ${process.env.DB_NAME};
+  USE ${process.env.DB_NAME};
 
   CREATE TABLE IF NOT EXISTS projetos (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -35,6 +39,7 @@ const createDatabaseAndTables = `
   );
 `
 
+// SQL para inserir projetos padrão
 const insertDefaultProjects = `
   INSERT INTO projetos (titulo, descricao, imagem_url, link) VALUES
   (
@@ -63,7 +68,7 @@ connection.query(createDatabaseAndTables, (err) => {
 
   const db = mysql.createConnection({
     ...dbConfig,
-    database: 'meu_portfolio'
+    database: process.env.DB_NAME
   })
 
   rl.question('Defina uma senha: ', (senha) => {
@@ -73,7 +78,6 @@ connection.query(createDatabaseAndTables, (err) => {
         if (err) throw err
         console.log('Senha criada e armazenada com sucesso no banco de dados!')
 
-        // Pergunta se quer inserir os projetos padrão
         rl.question('Deseja adicionar os projetos padrão? (Y/N) ', (resposta) => {
           if (resposta.trim().toLowerCase() === 'y') {
             db.query(insertDefaultProjects, (err) => {
