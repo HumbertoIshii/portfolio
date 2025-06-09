@@ -64,7 +64,7 @@ module.exports = (db) => {
   });
 
   // Salvar ou atualizar projeto com imagem
-  router.put('/save', isAuthenticated, upload.single('imagem'), (req, res) => {
+  router.post('/save', isAuthenticated, upload.single('imagem'), (req, res) => {
     const { id, titulo, descricao, link } = req.body;
     const imagem_url = req.file ? `/images/${req.file.filename}` : req.body.imagem_url || '';
 
@@ -96,7 +96,7 @@ module.exports = (db) => {
   });
 
   // Excluir projeto
-  router.delete('/delete/:id', isAuthenticated, (req, res) => {
+  router.get('/delete/:id', isAuthenticated, (req, res) => {
     db.query('DELETE FROM projetos WHERE id = ?', [req.params.id], (err) => {
       if (err) {
         console.error(err);
